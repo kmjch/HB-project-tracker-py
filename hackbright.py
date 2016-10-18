@@ -44,6 +44,7 @@ def make_new_student(first_name, last_name, github):
     db.session.commit()
     print "Successfully added student: %s %s" % (first_name, last_name)
 
+
 def get_project_by_title(title):
     """Given a project title, print information about the project."""
 
@@ -84,6 +85,19 @@ def assign_grade(github, title, grade):
     print "Successfully added grade %s for %s on project %s" % (grade, github, title)
 
 
+def make_new_project(title, description, max_grade):
+    """ Adds a new project to the project table. """
+
+    QUERY = """INSERT INTO Projects (title, description, max_grade) 
+               VALUES (:title, :description, :max_grade) """
+    db.session.execute(QUERY, {'title': title,
+                               'description': description,
+                               'max_grade': max_grade})
+    db.session.commit()
+    print "Successfully added project %s with max_grade %s and description %s" % (title, max_grade, description)
+
+
+
 def handle_input():
     """Main loop.
 
@@ -117,6 +131,12 @@ def handle_input():
         elif command == "new_grade":
             github, title, grade = args
             assign_grade(github, title, grade)
+
+        elif command == "new_project":
+            title = args[0]
+            description = ' '.join(args[1:-1])
+            max_grade = args[-1]
+            make_new_project(title, description, max_grade)
 
         else:
             if command != "quit":
