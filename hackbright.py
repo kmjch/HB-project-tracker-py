@@ -30,6 +30,8 @@ def get_student_by_github(github):
     row = db_cursor.fetchone()
     print "Student: %s %s\nGithub account: %s" % (row[0], row[1], row[2])
 
+    return row
+
 
 def make_new_student(first_name, last_name, github):
     """Add a new student and print confirmation.
